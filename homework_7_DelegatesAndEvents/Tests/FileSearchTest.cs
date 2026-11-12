@@ -65,6 +65,9 @@ public static class FileSearchTest
 
         switch (searchCompleted)
         {
+            case Models.SearchCompleted.DirectoryNotExists:
+                Console.WriteLine($"Couldn't find directory {_testDirectory}");
+                break;
             case Models.SearchCompleted.SearchEnds:
                 Console.WriteLine($"File Not Found. Total _iterations: {_iterations}");
                 break;
@@ -83,7 +86,7 @@ public static class FileSearchTest
     private static void RequiredFileListener(object? sender, FileFoundEventArgs e, string requiredFileName)
     {
         _iterations++;
-        if (e.FilePath.Contains(requiredFileName))
+        if (Path.GetFileName(e.FilePath).Contains(requiredFileName, StringComparison.OrdinalIgnoreCase))
         {
             e.Cancel = true;
         }
